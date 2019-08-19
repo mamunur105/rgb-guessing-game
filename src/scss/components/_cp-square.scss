@@ -11,6 +11,7 @@
 	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3), 0px 1px 2px 1px rgba(0, 0, 0, 0.1),
 		0px 3px 4px 4px rgba(0, 0, 0, 0.06);
 	transition: all 0.3s;
+	cursor: pointer;
 	@extend %bgc-primary;
 
 	&:hover,
@@ -22,6 +23,7 @@
 	}
 
 	&.disabled {
+		cursor: default;
 		&:hover,
 		&:focus,
 		&:active {
