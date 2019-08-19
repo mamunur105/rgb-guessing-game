@@ -1,3 +1,5 @@
+import { $ } from './functions';
+
 const setup = {
 	vars: {
 		numberOfSquares: 6,
@@ -136,20 +138,9 @@ const app = {
 	}
 };
 
-function $(selector) {
-	let elements;
-
-	if (selector === 'document') {
-		elements = [ document ];
-	} else if (selector === 'window') {
-		elements = [ window ];
-	} else if (selector === 'body') {
-		elements = document.body;
-	} else {
-		elements = document.querySelectorAll(selector);
-	}
-
-	return elements;
+// missing forEach on NodeList for IE11
+if (window.NodeList && !NodeList.prototype.forEach) {
+	NodeList.prototype.forEach = Array.prototype.forEach;
 }
 
 app.init();

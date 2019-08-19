@@ -29,7 +29,9 @@ const rtlcss = require('gulp-rtlcss'); // Generates RTL stylesheet.
 const concat = require('gulp-concat'); // Concatenates JS files.
 const uglify = require('gulp-uglify'); // Minifies JS files.
 const babel = require('gulp-babel'); // Compiles ESNext to browser compatible JS.
-let webpack = require('webpack-stream');
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
+const webpackConfig = require('./webpack.config.js');
 
 // Image related plugins.
 const imagemin = require('gulp-imagemin'); // Minify PNG, JPEG, GIF and SVG images with imagemin.
@@ -204,30 +206,30 @@ gulp.task('customJS', () => {
 			.pipe(plumber(errorHandler))
 			.pipe(remember(config.jsCustomSRC)) // Bring all files back to stream.
 			.pipe(concat(config.jsCustomFile + '.js'))
-			.pipe(
-				babel({
-					presets: [
-						[
-							'@babel/preset-env', // Preset to compile your modern JS to ES5.
-							{
-								targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
-							}
-						]
-					]
-				})
-			)
-			// .pipe(webpack(require('./webpack.config.js')))
+			// .pipe(
+			// 	babel({
+			// 		presets: [
+			// 			[
+			// 				'@babel/preset-env', // Preset to compile your modern JS to ES5.
+			// 				{
+			// 					targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
+			// 				}
+			// 			]
+			// 		]
+			// 	})
+			// )
+			.pipe(webpackStream(webpackConfig), webpack)
 			.pipe(lineec()) // Consistent Line Endings for non UNIX systems.
 			.pipe(gulp.dest(config.jsCustomDestination))
-			.pipe(
-				rename({
-					basename: config.jsCustomFile,
-					suffix: '.min'
-				})
-			)
-			.pipe(uglify())
-			.pipe(lineec()) // Consistent Line Endings for non UNIX systems.
-			.pipe(gulp.dest(config.jsCustomDestination))
+			// .pipe(
+			// 	rename({
+			// 		basename: config.jsCustomFile,
+			// 		suffix: '.min'
+			// 	})
+			// )
+			// .pipe(uglify())
+			// .pipe(lineec()) // Consistent Line Endings for non UNIX systems.
+			// .pipe(gulp.dest(config.jsCustomDestination))
 			.pipe(notify({ message: '✅  \n===> CUSTOM JS — completed!', onLast: true }))
 	);
 });
