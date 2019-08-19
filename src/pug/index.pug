@@ -1,0 +1,33 @@
+include mixins/mixin
+
+doctype html
+html(lang="en")
+
+	//- Including the Head Tag.
+	include includes/head
+
+	//- Body Contents.
+	body
+		#main-content
+			header#masthead
+				h1 The Great
+					span RGB
+					| Guessing Game
+
+				#nav
+					button#reset New Game
+					span#message
+					.mode-wrapper
+						button.mode Easy
+						button.mode.selected Hard
+
+			main#primary
+				.container
+					- for (var x = 0; x < 6; x++)
+						.square
+
+			<!-- .main -->
+		<!-- #main-content -->
+
+		// Scripts.
+		script(src="assets/js/app.min.js")

@@ -1,0 +1,12 @@
+/**
+ * Layout Container
+ *
+ */
+
+.container {
+	display: flex;
+	max-width: 600px;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 40px auto;
+}
