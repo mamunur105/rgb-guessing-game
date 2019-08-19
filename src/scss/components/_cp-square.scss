@@ -32,4 +32,9 @@
 				0px 3px 4px 4px rgba(0, 0, 0, 0.06);
 		}
 	}
+
+	@include media-only(small-mobile, max) {
+		width: calc(33.33% - 20px);
+		margin: 10px;
+	}
 }

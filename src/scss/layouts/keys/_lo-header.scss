@@ -15,10 +15,22 @@ h1 {
 	margin: 0;
 	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
+	@include respond-to(mobile) {
+		font-size: 26px;
+	}
+
 	span {
 		font-size: 50px;
 		display: block;
 		padding: 10px 0;
+
+		@include respond-to(mobile) {
+			font-size: 40px;
+		}
+
+		@include media-only(small-mobile, max) {
+			font-size: 34px;
+		}
 	}
 }
 
@@ -26,6 +38,20 @@ h1 {
 	@extend %bgc-white;
 	display: flex;
 	justify-content: center;
+
+	@include respond-to(mobile) {
+		font-size: 14px;
+	}
+
+	button {
+		@include media-only(small-mobile, max) {
+			font-size: 12px;
+		}
+
+		@include media-only(small-mobile, max) {
+			padding: 0 10px;
+		}
+	}
 
 	.mode-wrapper {
 		display: flex;
@@ -44,6 +70,15 @@ h1 {
 		font-weight: 600;
 		text-transform: capitalize;
 		@extend %color-primary;
+
+		@include respond-to(mobile) {
+			font-size: 14px;
+		}
+
+		@include media-only(small-mobile, max) {
+			font-size: 13px;
+			width: 22%;
+		}
 	}
 }
 
