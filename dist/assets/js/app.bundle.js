@@ -247,4 +247,3 @@ app.init();
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=app.bundle.js.map

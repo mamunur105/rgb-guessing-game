@@ -1,7 +1,7 @@
 {
-	"name": "js-drum-kit",
+	"name": "rgb-guessing-game",
 	"version": "1.0.0",
-	"description": "A Simple Drum Kit built by Vanilla JS",
+	"description": "A RGB Guessing Game with vanilla Javascript, PUG, SASS, Gulp and Webpack.",
 	"main": "aurora.config.js",
 	"devDependencies": {
 		"@babel/core": "^7.5.5",
@@ -44,17 +44,15 @@
 		"webpack-stream": "^5.2.1"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"wdevelop": "webpack --config webpack.dev.js",
+		"wbuild": "webpack --config webpack.prod.js"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/smrafiz/js-drum-kit.git"
 	},
-	"keywords": [
-		"JS",
-		"Vanilla-JS",
-		"Drum-Kit"
-	],
+	"keywords": [ "JS", "Vanilla-JS", "Drum-Kit" ],
 	"author": "S.M. Rafiz",
 	"license": "ISC",
 	"bugs": {

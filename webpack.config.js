@@ -10,7 +10,7 @@ module.exports = {
 		filename: 'app.bundle.js',
 		sourceMapFilename: 'app.bundle.js.map'
 	},
-	devtool: 'sourcemap',
+	// devtool: 'sourcemap',
 	module: {
 		rules: [
 			{
