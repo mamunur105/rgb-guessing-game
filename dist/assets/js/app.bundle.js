@@ -91,7 +91,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./src/js/functions.js
+// CONCATENATED MODULE: ./src/js/utils.js
 function $(selector) {
   var elements;
 
@@ -106,7 +106,13 @@ function $(selector) {
   }
 
   return elements;
-}
+} // missing forEach on NodeList for IE11
+
+var ieFix = function ie11nodelistfixer() {
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+}();
 // CONCATENATED MODULE: ./src/js/custom.js
 
 var _setup = {
@@ -194,6 +200,8 @@ var helpers = {
       _setup.selectors.squares[i].style.backgroundColor = color;
 
       _setup.selectors.squares[i].classList.add('disabled');
+
+      _setup.selectors.squares[i].style.boxShadow = '';
     }
   }
 };
@@ -234,15 +242,11 @@ var app = {
     _setup.selectors.h1[0].style.backgroundColor = _setup.vars.headerBackgroundColor;
 
     for (var i = 0; i < _setup.selectors.squares.length; i++) {
+      _setup.selectors.squares[i].style.boxShadow = '';
       handlers.modeChecker(i);
     }
   }
-}; // missing forEach on NodeList for IE11
-
-if (window.NodeList && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = Array.prototype.forEach;
-}
-
+};
 app.init();
 
 /***/ })

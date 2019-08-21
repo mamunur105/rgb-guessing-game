@@ -9,24 +9,17 @@ html(lang="en")
 	//- Body Contents.
 	body
 		#main-content
-			header#masthead
-				h1 The Great
-					span RGB
-					| Guessing Game
 
-				#nav
-					button#reset New Game
-					span#message
-					.mode-wrapper
-						button.mode Easy
-						button.mode.selected Hard
-				<!-- #nav -->
-			<!-- #masthead -->
+			//- Including the Header.
+			include includes/header
 
 			main#primary
 				.container
 					- for (var x = 0; x < 6; x++)
 						.square
+
+			//- Including the Footer.
+			include includes/footer
 
 			<!-- .main -->
 		<!-- #main-content -->

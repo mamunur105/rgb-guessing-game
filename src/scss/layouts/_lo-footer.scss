@@ -1,0 +1,11 @@
+#colophon {
+	text-align: center;
+	font-size: 14px;
+	background: rgba(0, 0, 0, 0.3);
+	padding: 15px 0;
+
+	p {
+		@extend %mb0;
+		@extend %color-white;
+	}
+}

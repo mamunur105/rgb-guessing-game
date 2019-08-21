@@ -1,4 +1,4 @@
-import { $ } from './functions';
+import { $ } from './utils';
 
 const setup = {
 	vars: {
@@ -91,6 +91,7 @@ const helpers = {
 		for (let i = 0; i < setup.selectors.squares.length; i++) {
 			setup.selectors.squares[i].style.backgroundColor = color;
 			setup.selectors.squares[i].classList.add('disabled');
+			setup.selectors.squares[i].style.boxShadow = '';
 		}
 	}
 };
@@ -133,14 +134,10 @@ const app = {
 		setup.selectors.h1[0].style.backgroundColor = setup.vars.headerBackgroundColor;
 
 		for (let i = 0; i < setup.selectors.squares.length; i++) {
+			setup.selectors.squares[i].style.boxShadow = '';
 			handlers.modeChecker(i);
 		}
 	}
 };
-
-// missing forEach on NodeList for IE11
-if (window.NodeList && !NodeList.prototype.forEach) {
-	NodeList.prototype.forEach = Array.prototype.forEach;
-}
 
 app.init();
