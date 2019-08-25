@@ -34,7 +34,7 @@ module.exports = {
 
 	// Watch files paths.
 	watchStyles: './src/scss/**/*.scss', // Path to all *.scss files inside css folder and inside them.
-	watchJsCustom: './src/js/*.js', // Path to all custom JS files.
+	watchJsCustom: './src/js/**/*.js', // Path to all custom JS files.
 	watchPhp: './**/*.php', // Path to all PHP files.
 	watchPug: './**/*.pug', // Path to all PUG files.
 

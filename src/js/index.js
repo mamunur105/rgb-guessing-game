@@ -1,4 +1,5 @@
-import { $ } from './utils';
+import { abc, loop } from './lib/utils';
+import { $$ } from './lib/init';
 
 const setup = {
 	vars: {
@@ -10,18 +11,18 @@ const setup = {
 	},
 
 	selectors: {
-		squares: $('.square'),
-		colorDisplay: $('h1 span'),
-		message: $('#message'),
-		h1: $('h1'),
-		resetBtn: $('#reset'),
-		modeBtn: $('#nav .mode')
+		squares: abc('.square'),
+		colorDisplay: abc('h1 span'),
+		message: abc('#message'),
+		h1: abc('h1'),
+		resetBtn: abc('#reset'),
+		modeBtn: abc('#nav .mode')
 	},
 
 	modeButtons() {
 		for (let i = 0; i < this.selectors.modeBtn.length; i++) {
 			this.selectors.modeBtn[i].addEventListener('click', (event) => {
-				this.selectors.modeBtn.forEach((btn) => {
+				loop(this.selectors.modeBtn, (btn) => {
 					btn.classList.remove('selected');
 				});
 
