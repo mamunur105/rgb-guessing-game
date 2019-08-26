@@ -311,6 +311,11 @@ function () {
       });
     }
   }, {
+    key: "getHtml",
+    value: function getHtml() {
+      return this.el[0].innerHTML;
+    }
+  }, {
     key: "html",
     value: function html(content) {
       return this.each(function () {
@@ -342,7 +347,7 @@ function () {
     key: "append",
     value: function append(content) {
       return this.each(function () {
-        return this.insertAdjacentHTML('beforeend', content);
+        return this.appendChild(content);
       });
     }
   }, {
@@ -371,6 +376,11 @@ function () {
       }
 
       return this.el[0].dataset[name] = value;
+    }
+  }, {
+    key: "getStyle",
+    value: function getStyle(property) {
+      return this.el[0].style[property];
     }
   }, {
     key: "css",
@@ -670,7 +680,7 @@ var app = {
         'background-color': _setup.vars.colors[i]
       });
       init_$$(_setup.selectors.squares.el[i]).on('click', function (e) {
-        var clickedColor = e.target.style.backgroundColor;
+        var clickedColor = init_$$(e.target).getStyle('background-color');
 
         if (clickedColor === _setup.vars.pickedColor) {
           handlers.success(clickedColor);

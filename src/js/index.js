@@ -88,7 +88,7 @@ const app = {
 			$$(setup.selectors.squares.el[i]).css({ 'background-color': setup.vars.colors[i] });
 
 			$$(setup.selectors.squares.el[i]).on('click', function(e) {
-				let clickedColor = e.target.style.backgroundColor;
+				let clickedColor = $$(e.target).getStyle('background-color');
 
 				if (clickedColor === setup.vars.pickedColor) {
 					handlers.success(clickedColor);

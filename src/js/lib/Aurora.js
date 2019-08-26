@@ -95,6 +95,10 @@ export class Aurora {
 		});
 	}
 
+	getHtml() {
+		return this.el[0].innerHTML;
+	}
+
 	html(content) {
 		return this.each(function() {
 			return (this.innerHTML = content);
@@ -121,7 +125,7 @@ export class Aurora {
 
 	append(content) {
 		return this.each(function() {
-			return this.insertAdjacentHTML('beforeend', content);
+			return this.appendChild(content);
 		});
 	}
 
@@ -147,6 +151,10 @@ export class Aurora {
 		}
 
 		return (this.el[0].dataset[name] = value);
+	}
+
+	getStyle(property) {
+		return this.el[0].style[property];
 	}
 
 	css(styles) {
