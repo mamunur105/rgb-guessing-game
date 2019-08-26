@@ -85,6 +85,10 @@ export class Aurora {
 		});
 	}
 
+	getText() {
+		return this.el[0].textContent;
+	}
+
 	text(content) {
 		return this.each(function() {
 			return (this.textContent = content);
@@ -171,25 +175,33 @@ export class Aurora {
 		});
 	}
 
-	on(eventName, selector, callback) {
+	on(event, callback) {
 		return this.each(function() {
-			this.addEventListener(
-				eventName,
-				function(event) {
-					const id = selector.el[0].id ? `#${selector.el[0].id}` : '',
-						className = selector.el[0].className ? `.${selector.el[0].className}` : '',
-						tagName = selector.el[0].tagName;
-
-					if (event.target && event.target.matches(className || id || tagName)) {
-						callback.call(this, event);
-					}
-				},
-				false
-			);
-
-			return this;
+			this.addEventListener(event, callback, false);
 		});
 	}
+
+	// on(eventName, selector, callback) {
+	// 	return this.each(function() {
+	// 		this.addEventListener(
+	// 			eventName,
+	// 			function(event) {
+	// 				console.log(selector.el[0]);
+
+	// 				const id = selector.el[0].id ? `#${selector.el[0].id}` : '',
+	// 					className = selector.el[0].className ? `.${selector.el[0].className}` : '',
+	// 					tagName = selector.el[0].tagName;
+
+	// 				if (event.target && event.target.matches(className || id || tagName)) {
+	// 					callback.call(this, event);
+	// 				}
+	// 			},
+	// 			false
+	// 		);
+
+	// 		return this;
+	// 	});
+	// }
 
 	fadeOut(duration, styles) {
 		return this.each(function() {

@@ -94,29 +94,18 @@ __webpack_require__.r(__webpack_exports__);
 // CONCATENATED MODULE: ./src/js/lib/utils.js
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function abc(selector) {
-  var elements;
-
-  if (selector === 'document') {
-    elements = [document];
-  } else if (selector == 'window') {
-    elements = [window];
-  } else if (selector === 'body') {
-    elements = document.body;
-  } else {
-    elements = [].slice.call(document.querySelectorAll(selector));
-  }
-
-  return elements;
-}
-var loop = function loop(arr, callback, method) {
-  return [][method || 'forEach'].call(arr, callback);
-};
+/**
+ * Retrieve the property of an Object.
+ */
 var retrieve = function retrieve(property) {
   return function (object) {
     return object[property];
   };
 };
+/**
+ * Function composition.
+ */
+
 function compose() {
   return [].reduce.call(arguments, function (f, g) {
     return function () {
@@ -124,25 +113,49 @@ function compose() {
     };
   });
 }
+/**
+ * Join two arrays.
+ */
+
 function join(f, g) {
   return function () {
     return f.apply(this, arguments).concat(g.apply(this, arguments));
   };
 }
+/**
+ * Convert nodelist into array.
+ */
+
 var toArray = function toArray(nodelist) {
   return !nodelist.length || _typeof(nodelist) !== 'object' ? nodelist : [].slice.call(nodelist);
 };
+/**
+* Retrieve array of a given element in a given context.
+*/
+
 var query = function query(selector, element) {
   return toArray((element || document).querySelectorAll(selector));
 };
+/**
+ * Get the unique values of an array.
+ */
+
 var unique = function unique(array) {
   return array.filter(function (a, b) {
     return array.indexOf(a) === b;
   });
 };
+/**
+ * Flatten multiple array into one.
+ */
+
 var flatten = function flatten(array) {
   return [].concat.apply([], array);
 };
+/**
+ * Check if DOM is ready.
+ */
+
 function ready(fn) {
   if (document.readyState !== 'loading') {
     fn();
@@ -286,6 +299,11 @@ function () {
       });
     }
   }, {
+    key: "getText",
+    value: function getText() {
+      return this.el[0].textContent;
+    }
+  }, {
     key: "text",
     value: function text(content) {
       return this.each(function () {
@@ -391,20 +409,29 @@ function () {
     }
   }, {
     key: "on",
-    value: function on(eventName, selector, callback) {
+    value: function on(event, callback) {
       return this.each(function () {
-        this.addEventListener(eventName, function (event) {
-          var id = selector.el[0].id ? "#".concat(selector.el[0].id) : '',
-              className = selector.el[0].className ? ".".concat(selector.el[0].className) : '',
-              tagName = selector.el[0].tagName;
-
-          if (event.target && event.target.matches(className || id || tagName)) {
-            callback.call(this, event);
-          }
-        }, false);
-        return this;
+        this.addEventListener(event, callback, false);
       });
-    }
+    } // on(eventName, selector, callback) {
+    // 	return this.each(function() {
+    // 		this.addEventListener(
+    // 			eventName,
+    // 			function(event) {
+    // 				console.log(selector.el[0]);
+    // 				const id = selector.el[0].id ? `#${selector.el[0].id}` : '',
+    // 					className = selector.el[0].className ? `.${selector.el[0].className}` : '',
+    // 					tagName = selector.el[0].tagName;
+    // 				if (event.target && event.target.matches(className || id || tagName)) {
+    // 					callback.call(this, event);
+    // 				}
+    // 			},
+    // 			false
+    // 		);
+    // 		return this;
+    // 	});
+    // }
+
   }, {
     key: "fadeOut",
     value: function fadeOut(duration, styles) {
@@ -491,12 +518,69 @@ function () {
 }();
 // CONCATENATED MODULE: ./src/js/lib/init.js
 
-var $$ = window.$$ = function () {
+var init_$$ = window.$$ = function () {
   return function (selector) {
     return new Aurora_Aurora(selector);
   };
 }();
+// CONCATENATED MODULE: ./src/js/Helpers.js
+function Helpers_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function Helpers_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function Helpers_createClass(Constructor, protoProps, staticProps) { if (protoProps) Helpers_defineProperties(Constructor.prototype, protoProps); if (staticProps) Helpers_defineProperties(Constructor, staticProps); return Constructor; }
+
+var GameHelpers =
+/*#__PURE__*/
+function () {
+  function GameHelpers() {
+    Helpers_classCallCheck(this, GameHelpers);
+  }
+
+  Helpers_createClass(GameHelpers, null, [{
+    key: "randomColor",
+    value: function randomColor() {
+      var r = Math.floor(Math.random() * 256),
+          g = Math.floor(Math.random() * 256),
+          b = Math.floor(Math.random() * 256);
+      return "rgb(".concat(r, ", ").concat(g, ", ").concat(b, ")");
+    }
+  }, {
+    key: "generateRandomColors",
+    value: function generateRandomColors(number) {
+      var colors = [];
+
+      for (var i = 0; i < number; i++) {
+        colors.push(this.randomColor());
+      }
+
+      return colors;
+    }
+  }, {
+    key: "pickColor",
+    value: function pickColor(colorArray) {
+      var random = Math.floor(Math.random() * colorArray.length);
+      return colorArray[random];
+    }
+  }, {
+    key: "changeColor",
+    value: function changeColor(el, color) {
+      el.each(function () {
+        $$(this).css({
+          'background-color': color,
+          'box-shadow': ''
+        });
+        $$(this).addClass('disabled');
+      });
+    }
+  }]);
+
+  return GameHelpers;
+}();
+
+/* harmony default export */ var Helpers = (GameHelpers);
 // CONCATENATED MODULE: ./src/js/index.js
+
 
 
 var _setup = {
@@ -508,84 +592,63 @@ var _setup = {
     headerBackgroundColor: 'steelblue'
   },
   selectors: {
-    squares: abc('.square'),
-    colorDisplay: abc('h1 span'),
-    message: abc('#message'),
-    h1: abc('h1'),
-    resetBtn: abc('#reset'),
-    modeBtn: abc('#nav .mode')
+    squares: init_$$('.square'),
+    colorDisplay: init_$$('h1 span'),
+    message: init_$$('#message'),
+    h1: init_$$('h1'),
+    resetBtn: init_$$('#reset'),
+    modeBtn: init_$$('#nav .mode')
   },
   modeButtons: function modeButtons() {
-    var _this = this;
-
-    for (var i = 0; i < this.selectors.modeBtn.length; i++) {
-      this.selectors.modeBtn[i].addEventListener('click', function (event) {
-        loop(_this.selectors.modeBtn, function (btn) {
-          btn.classList.remove('selected');
+    this.selectors.modeBtn.each(function () {
+      init_$$(this).on('click', function (e) {
+        _setup.selectors.modeBtn.each(function () {
+          init_$$(this).removeClass('selected');
         });
-        event.target.classList.add('selected');
-        _this.vars.numberOfSquares = event.target.textContent === 'Easy' ? 3 : 6;
+
+        init_$$(e.target).addClass('selected');
+        _setup.vars.numberOfSquares = init_$$(e.target).getText() === 'Easy' ? 3 : 6;
         app.reset();
       });
-    }
+    });
   },
   resetButton: function resetButton() {
-    this.selectors.resetBtn[0].addEventListener('click', function () {
-      return app.reset();
+    this.selectors.resetBtn.on('click', function () {
+      app.reset();
     });
   }
 };
 var handlers = {
   success: function success(args) {
-    _setup.selectors.message[0].textContent = 'Correct!';
-    _setup.selectors.resetBtn[0].textContent = 'Play Again?';
-    helpers.changeColor(args);
-    _setup.selectors.h1[0].style.backgroundColor = args;
+    _setup.selectors.message.text('Correct!');
+
+    _setup.selectors.resetBtn.text('Play Again?');
+
+    Helpers.changeColor(_setup.selectors.squares, args);
+
+    _setup.selectors.h1.css({
+      'background-color': args
+    });
   },
   failure: function failure(args) {
-    args.target.style.backgroundColor = _setup.vars.bodyBackgroundColor;
-    args.target.style.boxShadow = 'none';
-    _setup.selectors.message[0].textContent = 'Try Again!';
+    init_$$(args).css({
+      'background-color': _setup.vars.bodyBackgroundColor,
+      'box-shadow': 'none'
+    });
+
+    _setup.selectors.message.text('Try Again!');
   },
   modeChecker: function modeChecker(args) {
     if (_setup.vars.colors[args]) {
-      _setup.selectors.squares[args].style.display = 'block';
-      _setup.selectors.squares[args].style.backgroundColor = _setup.vars.colors[args];
+      init_$$(_setup.selectors.squares.el[args]).css({
+        display: 'block',
+        'background-color': _setup.vars.colors[args]
+      });
     } else {
-      _setup.selectors.squares[args].style.display = 'none';
+      init_$$(_setup.selectors.squares.el[args]).hide();
     }
 
-    _setup.selectors.squares[args].classList.remove('disabled');
-  }
-};
-var helpers = {
-  generateRandomColors: function generateRandomColors(number) {
-    var colors = [];
-
-    for (var index = 0; index < number; index++) {
-      colors.push(this.randomColor());
-    }
-
-    return colors;
-  },
-  randomColor: function randomColor() {
-    var r = Math.floor(Math.random() * 256),
-        g = Math.floor(Math.random() * 256),
-        b = Math.floor(Math.random() * 256);
-    return "rgb(".concat(r, ", ").concat(g, ", ").concat(b, ")");
-  },
-  pickColor: function pickColor() {
-    var rand = Math.floor(Math.random() * _setup.vars.colors.length);
-    return _setup.vars.colors[rand];
-  },
-  changeColor: function changeColor(color) {
-    for (var i = 0; i < _setup.selectors.squares.length; i++) {
-      _setup.selectors.squares[i].style.backgroundColor = color;
-
-      _setup.selectors.squares[i].classList.add('disabled');
-
-      _setup.selectors.squares[i].style.boxShadow = '';
-    }
+    init_$$(_setup.selectors.squares.el[args]).removeClass('disabled');
   }
 };
 var app = {
@@ -603,34 +666,43 @@ var app = {
   },
   actions: function actions() {
     for (var i = 0; i < _setup.selectors.squares.length; i++) {
-      _setup.selectors.squares[i].style.backgroundColor = _setup.vars.colors[i];
-
-      _setup.selectors.squares[i].addEventListener('click', function (event) {
-        var clickedColor = event.target.style.backgroundColor;
+      init_$$(_setup.selectors.squares.el[i]).css({
+        'background-color': _setup.vars.colors[i]
+      });
+      init_$$(_setup.selectors.squares.el[i]).on('click', function (e) {
+        var clickedColor = e.target.style.backgroundColor;
 
         if (clickedColor === _setup.vars.pickedColor) {
           handlers.success(clickedColor);
         } else {
-          handlers.failure(event);
+          handlers.failure(e.target);
         }
       });
     }
   },
   reset: function reset() {
-    _setup.vars.colors = helpers.generateRandomColors(_setup.vars.numberOfSquares);
-    _setup.vars.pickedColor = helpers.pickColor();
-    _setup.selectors.colorDisplay[0].textContent = _setup.vars.pickedColor;
-    _setup.selectors.message[0].textContent = '';
-    _setup.selectors.resetBtn[0].textContent = 'New game';
-    _setup.selectors.h1[0].style.backgroundColor = _setup.vars.headerBackgroundColor;
+    _setup.vars.colors = Helpers.generateRandomColors(_setup.vars.numberOfSquares);
+    _setup.vars.pickedColor = Helpers.pickColor(_setup.vars.colors);
+
+    _setup.selectors.colorDisplay.text(_setup.vars.pickedColor);
+
+    _setup.selectors.message.text('');
+
+    _setup.selectors.resetBtn.text('New game');
+
+    _setup.selectors.h1.css({
+      'background-color': _setup.vars.headerBackgroundColor
+    });
 
     for (var i = 0; i < _setup.selectors.squares.length; i++) {
-      _setup.selectors.squares[i].style.boxShadow = '';
+      init_$$(_setup.selectors.squares.el[i]).css({
+        'box-shadow': ''
+      });
       handlers.modeChecker(i);
     }
   }
 };
-app.init();
+ready(app.init());
 
 /***/ })
 /******/ ]);

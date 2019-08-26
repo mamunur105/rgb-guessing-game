@@ -1,5 +1,6 @@
-import { abc, loop } from './lib/utils';
 import { $$ } from './lib/init';
+import gameHelpers from './Helpers';
+import { ready } from './lib/utils';
 
 const setup = {
 	vars: {
@@ -11,89 +12,61 @@ const setup = {
 	},
 
 	selectors: {
-		squares: abc('.square'),
-		colorDisplay: abc('h1 span'),
-		message: abc('#message'),
-		h1: abc('h1'),
-		resetBtn: abc('#reset'),
-		modeBtn: abc('#nav .mode')
+		squares: $$('.square'),
+		colorDisplay: $$('h1 span'),
+		message: $$('#message'),
+		h1: $$('h1'),
+		resetBtn: $$('#reset'),
+		modeBtn: $$('#nav .mode')
 	},
 
 	modeButtons() {
-		for (let i = 0; i < this.selectors.modeBtn.length; i++) {
-			this.selectors.modeBtn[i].addEventListener('click', (event) => {
-				loop(this.selectors.modeBtn, (btn) => {
-					btn.classList.remove('selected');
+		this.selectors.modeBtn.each(function() {
+			$$(this).on('click', function(e) {
+				setup.selectors.modeBtn.each(function() {
+					$$(this).removeClass('selected');
 				});
-
-				event.target.classList.add('selected');
-				this.vars.numberOfSquares = event.target.textContent === 'Easy' ? 3 : 6;
+				$$(e.target).addClass('selected');
+				setup.vars.numberOfSquares = $$(e.target).getText() === 'Easy' ? 3 : 6;
 				app.reset();
 			});
-		}
+		});
 	},
 
 	resetButton() {
-		this.selectors.resetBtn[0].addEventListener('click', () => app.reset());
+		this.selectors.resetBtn.on('click', function() {
+			app.reset();
+		});
 	}
 };
 
 const handlers = {
 	success(args) {
-		setup.selectors.message[0].textContent = 'Correct!';
-		setup.selectors.resetBtn[0].textContent = 'Play Again?';
-		helpers.changeColor(args);
-		setup.selectors.h1[0].style.backgroundColor = args;
+		setup.selectors.message.text('Correct!');
+		setup.selectors.resetBtn.text('Play Again?');
+		gameHelpers.changeColor(setup.selectors.squares, args);
+		setup.selectors.h1.css({ 'background-color': args });
 	},
 
 	failure(args) {
-		args.target.style.backgroundColor = setup.vars.bodyBackgroundColor;
-		args.target.style.boxShadow = 'none';
-		setup.selectors.message[0].textContent = 'Try Again!';
+		$$(args).css({
+			'background-color': setup.vars.bodyBackgroundColor,
+			'box-shadow': 'none'
+		});
+
+		setup.selectors.message.text('Try Again!');
 	},
 
 	modeChecker(args) {
 		if (setup.vars.colors[args]) {
-			setup.selectors.squares[args].style.display = 'block';
-			setup.selectors.squares[args].style.backgroundColor = setup.vars.colors[args];
+			$$(setup.selectors.squares.el[args]).css({
+				display: 'block',
+				'background-color': setup.vars.colors[args]
+			});
 		} else {
-			setup.selectors.squares[args].style.display = 'none';
+			$$(setup.selectors.squares.el[args]).hide();
 		}
-		setup.selectors.squares[args].classList.remove('disabled');
-	}
-};
-
-const helpers = {
-	generateRandomColors(number) {
-		let colors = [];
-
-		for (let index = 0; index < number; index++) {
-			colors.push(this.randomColor());
-		}
-
-		return colors;
-	},
-
-	randomColor() {
-		let r = Math.floor(Math.random() * 256),
-			g = Math.floor(Math.random() * 256),
-			b = Math.floor(Math.random() * 256);
-
-		return `rgb(${r}, ${g}, ${b})`;
-	},
-
-	pickColor() {
-		let rand = Math.floor(Math.random() * setup.vars.colors.length);
-
-		return setup.vars.colors[rand];
-	},
-
-	changeColor(color) {
-		for (let i = 0; i < setup.selectors.squares.length; i++) {
-			setup.selectors.squares[i].style.backgroundColor = color;
-			setup.selectors.squares[i].classList.add('disabled');
-			setup.selectors.squares[i].style.boxShadow = '';
-		}
+		$$(setup.selectors.squares.el[args]).removeClass('disabled');
 	}
 };
 
@@ -112,33 +85,33 @@ const app = {
 
 	actions() {
 		for (let i = 0; i < setup.selectors.squares.length; i++) {
-			setup.selectors.squares[i].style.backgroundColor = setup.vars.colors[i];
+			$$(setup.selectors.squares.el[i]).css({ 'background-color': setup.vars.colors[i] });
 
-			setup.selectors.squares[i].addEventListener('click', (event) => {
-				let clickedColor = event.target.style.backgroundColor;
+			$$(setup.selectors.squares.el[i]).on('click', function(e) {
+				let clickedColor = e.target.style.backgroundColor;
 
 				if (clickedColor === setup.vars.pickedColor) {
 					handlers.success(clickedColor);
 				} else {
-					handlers.failure(event);
+					handlers.failure(e.target);
 				}
 			});
 		}
 	},
 
 	reset() {
-		setup.vars.colors = helpers.generateRandomColors(setup.vars.numberOfSquares);
-		setup.vars.pickedColor = helpers.pickColor();
-		setup.selectors.colorDisplay[0].textContent = setup.vars.pickedColor;
-		setup.selectors.message[0].textContent = '';
-		setup.selectors.resetBtn[0].textContent = 'New game';
-		setup.selectors.h1[0].style.backgroundColor = setup.vars.headerBackgroundColor;
+		setup.vars.colors = gameHelpers.generateRandomColors(setup.vars.numberOfSquares);
+		setup.vars.pickedColor = gameHelpers.pickColor(setup.vars.colors);
+		setup.selectors.colorDisplay.text(setup.vars.pickedColor);
+		setup.selectors.message.text('');
+		setup.selectors.resetBtn.text('New game');
+		setup.selectors.h1.css({ 'background-color': setup.vars.headerBackgroundColor });
 
 		for (let i = 0; i < setup.selectors.squares.length; i++) {
-			setup.selectors.squares[i].style.boxShadow = '';
+			$$(setup.selectors.squares.el[i]).css({ 'box-shadow': '' });
 			handlers.modeChecker(i);
 		}
 	}
 };
 
-app.init();
+ready(app.init());
