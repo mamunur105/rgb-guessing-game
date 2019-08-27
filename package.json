@@ -8,6 +8,7 @@
 		"@babel/preset-env": "^7.5.5",
 		"babel-core": "^6.26.3",
 		"babel-loader": "^8.0.6",
+		"babel-polyfill": "^6.26.0",
 		"beepbeep": "^1.2.2",
 		"browser-sync": "^2.26.7",
 		"del": "^5.0.0",
@@ -52,11 +53,15 @@
 		"type": "git",
 		"url": "git+https://github.com/smrafiz/js-drum-kit.git"
 	},
-	"keywords": [ "JS", "Vanilla-JS", "Drum-Kit" ],
+	"keywords": [
+		"JS",
+		"Vanilla-JS",
+		"Fun-Game"
+	],
 	"author": "S.M. Rafiz",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/smrafiz/js-drum-kit/issues"
+		"url": "https://github.com/smrafiz/rgb-guessing-game/issues"
 	},
-	"homepage": "https://github.com/smrafiz/js-drum-kit#readme"
+	"homepage": "https://github.com/smrafiz/rgb-guessing-game#readme"
 }

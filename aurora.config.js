@@ -6,7 +6,7 @@
 
 module.exports = {
 	// Project options.
-	projectName: 'js-clock',
+	projectName: 'rgb-guessing-game',
 	projectURL: 'http://localhost/rgb-guessing-game/', // Local project URL.
 	productURL: './', // Project URL. Leave it like it is, since our gulpfile.js lives in the root folder.
 	browserAutoOpen: false,
